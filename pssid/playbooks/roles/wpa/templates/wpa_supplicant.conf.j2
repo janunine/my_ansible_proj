@@ -1,0 +1,7 @@
+{% for network in wpa_supplicant_profiles.networks %}
+network={
+    ssid="{{ network.ssid }}"
+    psk="{{ network.psk }}"
+    key_mgmt="{{ network.key_mgmt }}"
+}
+{% endfor %}

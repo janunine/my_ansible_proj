@@ -1,0 +1,19 @@
+---
+
+- name: Configure wpa_supplicant
+  hosts: all
+  become: yes
+  tasks:
+
+    - name: Create wpa_supplicant directory
+      file:
+        path: /usr/local/pssid/etc
+        state: directory
+        mode: 0755
+
+    - name: Generate wpa_supplicant.conf
+      template:
+        src: roles/wpa/templates/wpa_supplicant.conf.j2
+        dest: /usr/local/pssid/etc/wpa_supplicant.conf
+      vars:
+        wpa_supplicant: "{{ lookup('file', 'inventory/group_vars/all/wpa_supplicant_profiles.yml') }}"

@@ -1,0 +1,6 @@
+---
+wpa_supplicant_profiles:
+  networks:
+    - ssid: "NETGEAR41"
+      psk: "rusticfire739"
+      key_mgmt: "WPA-PSK"
