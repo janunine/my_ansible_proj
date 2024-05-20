@@ -1,11 +1,13 @@
 ---
 
-- name: Configure wpa_supplicant
+- name: Configure wpa_supplicant and clone repo
   hosts: all
   become: yes
   # add vars_files to dynamically rendering
   vars_files:
     - inventory/group_vars/all/wpa_supplicant_profiles.yml
+  roles: 
+    - wpa
   tasks:
 
     - name: Create wpa_supplicant directory
