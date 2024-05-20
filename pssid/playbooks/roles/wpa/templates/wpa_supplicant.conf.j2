@@ -1,7 +1,8 @@
-{% for network in wpa_supplicant_profiles.networks %}
+ctrl_interface = {{ wpa_supplicant_profiles.global_settings.ctrl_interface }}
+
 network={
     ssid="{{ network.ssid }}"
     psk="{{ network.psk }}"
     key_mgmt="{{ network.key_mgmt }}"
 }
-{% endfor %}
+

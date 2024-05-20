@@ -3,6 +3,9 @@
 - name: Configure wpa_supplicant
   hosts: all
   become: yes
+  # add vars_files to dynamically rendering
+  vars_files:
+    - inventory/group_vars/all/wpa_supplicant_profiles.yml
   tasks:
 
     - name: Create wpa_supplicant directory
@@ -11,9 +14,17 @@
         state: directory
         mode: 0755
 
-    - name: Generate wpa_supplicant.conf
+    - name: Generate wpa_supplicant.conf for each network
       template:
         src: roles/wpa/templates/wpa_supplicant.conf.j2
-        dest: /usr/local/pssid/etc/wpa_supplicant.conf
-      vars:
-        wpa_supplicant: "{{ lookup('file', 'inventory/group_vars/all/wpa_supplicant_profiles.yml') }}"
+        dest: /usr/local/pssid/etc/wpa_supplicant_{{ network.ssid }}.conf
+      # vars can be defined when called 
+      # vars:
+      #   wpa_supplicant: "{{ lookup('file', 'inventory/group_vars/all/wpa_supplicant_profiles.yml') }}"
+      loop: "{{ wpa_supplicant_profiles.networks }}"
+      loop_control:
+        # loop_var can be item (or arbitary) if network is loop variable in j2 template
+        # {% for network in wpa_supplicant_profiles.networks %}
+        # {% endfor %}
+
+        loop_var: network

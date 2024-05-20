@@ -1,6 +1,11 @@
 ---
 wpa_supplicant_profiles:
+  global_settings:
+      ctrl_interface: "/var/run/wpa_supplicant" 
   networks:
     - ssid: "NETGEAR41"
       psk: "rusticfire739"
+      key_mgmt: "WPA-PSK" 
+    - ssid: "5G"
+      psk: "12345678"
       key_mgmt: "WPA-PSK"
