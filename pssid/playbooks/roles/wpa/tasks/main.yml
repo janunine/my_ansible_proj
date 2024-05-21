@@ -1,2 +1,3 @@
 ---
 - import_tasks: clone_repo.yml
+- import_tasks: gather_ipv6_ssh.yml

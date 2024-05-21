@@ -16,3 +16,11 @@
   environment:
     # GIT_SSH_COMMAND: 'ssh -i /home/ubuntu/.ssh/id_rsa'
     GIT_SSH_COMMAND: 'ssh -i /home/ubuntu/.ssh/id_rsa'
+
+- name: Install additional dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - jq
+    - dhcpcd5

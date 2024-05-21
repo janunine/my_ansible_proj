@@ -1,0 +1,39 @@
+---
+- name: Gather IPv6 link-local address
+  set_fact:
+    ipv6_link_local: "{{ ansible_all_ipv6_addresses | select('search', 'fe80::') | list | first }}"
+
+- name: Print IPv6 link-local address
+  debug:
+    msg: "IPv6 link-local address: {{ ipv6_link_local }}"
+
+- name: Initiate SSH connection to IPv6 link-local address
+  become: no
+  local_action:
+    module: command
+    args:
+      # cmd: ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/Users/dianluhe/.ssh -i /home/ubuntu/.ssh/id_rsa ubuntu@{{ ipv6_link_local }}%en0
+      cmd: ssh ubuntu@{{ ipv6_link_local }}%en0
+
+  register: ssh_output
+  ignore_errors: yes
+
+- name: Print SSH command output
+  debug:
+    var: ssh_output.stdout_lines
+
+# This code shows target nodes terminal opperation by ansible
+- name: Check if directory exists
+  stat:
+    path: /home/ubuntu/fromAnsible
+  register: dir_check
+
+- name: Delete directory if it exists
+  file:
+    path: /home/ubuntu/fromAnsible
+    state: absent
+  when: dir_check.stat.exists
+
+- name: Run command on remote host
+  shell: mkdir fromAnsible
+  when: ssh_output.rc == 0

@@ -2,6 +2,8 @@
 
 - name: Configure wpa_supplicant and clone repo
   hosts: all
+  #$$
+  gather_facts: yes
   become: yes
   # add vars_files to dynamically rendering
   vars_files:
